@@ -1,38 +1,51 @@
 import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css"; // Ensure Bootstrap is imported
+
 const Header = () => {
   return (
-    <div>
-      <nav class=" bg-info navbar navbar-expand-lg bg-body-tertiary fixed-top ">
-  <div class="container-fluid">
-    <a class="navbar-brand " href="/"  style={{marginLeft:"50px"}}><h1>E- L e a r n</h1></a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link " href="/Home" style={{marginLeft:"50px"}}><h5>Home</h5></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/About" style={{marginLeft:"50px"}}><h5>About_us</h5></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Courses" style={{marginLeft:"50px"}}><h5>Courses</h5></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/NewBatches" style={{marginLeft:"50px"}}><h5>New Batches</h5></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/Contact" style={{marginLeft:"50px"}}><h5>Contact_us</h5></a>
-        </li>
-      </ul>
-      <span class="navbar-text">
-      Welcome to Our Learning Platform 😊
-      </span>
-    </div>
-  </div>
-</nav>
-    </div>
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg fixed-top">
+      <div className="container">
+        {/* Logo */}
+        <a className="navbar-brand fw-bold text-light" href="/">
+          <h2 className="m-0 text-warning">E-Learn</h2>
+        </a>
+
+        {/* Navbar Toggler for Mobile */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
+
+        {/* Navbar Links */}
+        <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
+          <ul className="navbar-nav">
+            {["Home", "About Us", "Courses", "New Batches", "Contact Us"].map((item, index) => (
+              <li className="nav-item" key={index}>
+                <a
+                  className="nav-link text-light fw-semibold px-3"
+                  href={`/${item.replace(" ", "")}`}
+                  style={{ transition: "0.3s" }}
+                >
+                  {item}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Welcome Message */}
+        <span className="navbar-text d-none d-lg-block text-light fw-bold">
+          Welcome to Our Learning Platform 😊
+        </span>
+      </div>
+    </nav>
   );
 };
 

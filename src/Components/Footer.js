@@ -39,10 +39,10 @@ const Footer = () => {
               </p>{" "}
             </div>{" "}
           </div>{" "}
-          <div className="mt-4">
-            {" "}
-            <p>&copy; 2024 E-learn. All Rights Reserved.</p>{" "}
-          </div>{" "}
+          {/* Footer (Ensure it's visible) */}
+      <footer className="bg-secondary text-center py-3">
+        <p className="m-0">© 2024 Hyderabad IT Trainings. All Rights Reserved.</p>
+      </footer>{" "}
         </div>{" "}
       </footer>
     </div>

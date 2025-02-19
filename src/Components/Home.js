@@ -1,199 +1,71 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min";
+import Courses from "./Courses";
+import NewBatches from "./NewBatches";
 
 const Home = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [subject, setSubject] = useState("");
-  const [message, setMessage] = useState("");
-
   const [news, setNews] = useState([]);
-  const neswUrl = "https://hit-backend.onrender.com/news";
-  const enquiriesUrl = "https://hit-backend.onrender.com/enquiries";
+  const newsUrl = "https://hit-backend.onrender.com/news";
 
   useEffect(() => {
     axios
-      .get(neswUrl)
-      .then((res) => {
-        setNews(res.data);
-        console.log(res.data);
-      })
-      .catch((erro) => console.log("error in fetching the news" + { erro }));
+      .get(newsUrl)
+      .then((res) => setNews(res.data))
+      .catch((err) => console.log("Error fetching news:", err));
   }, []);
 
-  const addData = (e) => {
-    e.preventDefault();
-    axios
-      .post(`enquiriesUrl/`, {
-        name,
-        email,
-        phone,
-        subject,
-        message,
-      })
-      .then((res) => {
-        alert("Thank you for registering ");
-        setEmail("");
-        setMessage("");
-        setName("");
-        setPhone("");
-        setSubject("");
-        console.log(res.data);
-      })
-      .catch((er) => alert(er));
-  };
-
   return (
-    <div className="container mt-5 pt-5">
-      <hr></hr>
-      <div>
-        <div className="marquee-container bg-info text-white py-2">
-          {" "}
-          <div className="marquee-content">
-            {" "}
-            <span>
-              <marquee>
-                {news?.map((a) => {
-                  return a.News;
-                })}
-              </marquee>
-            </span>{" "}
-          </div>{" "}
-        </div>
-        <hr></hr>
-
-        <img
-          src="https://hyderabadittrainings.com/images/slider/DESK1-min.jpg "
-          style={{ width: "100%" }}
-          alt="side-img"
-        ></img>
-        <hr></hr>
+    <div className="container-fluid bg-dark text-white" style={{ paddingTop: "120px" }}>
+      {/* News Scrolling Bar */}
+      <div className="bg-secondary py-2 text-center">
+        <marquee className="fw-bold text-light">
+          {news.map((item, index) => (
+            <span key={index} className="mx-3">{item.News}</span>
+          ))}
+        </marquee>
       </div>
-      <section style={{ display: "flex" }}>
-        <div style={{ width: "60%", padding: "10px" }}>
-          <aside>
-            <h1>
-              Welcome to{" "}
-              <span style={{ color: "red" }}>Hyderabad IT Trainings</span>
-            </h1>
-            <br />
-            <p>
-              Hyderabad IT Trainings is a Hyderabad based Training Institute
-              delivering classroom and online trainings in India, USA and UK,
-              Australia. We are Providing high quality training is our core
-              value. We offer both classroom and online training on niche
-              technologies which are in high demand. All our trainers are IT
-              professionals with rich experience.
-              <br />
-              <br />
-              <br />
-              Hyderabad IT Trainings is a leading training and placement company
-              in hyderabad managed by industry experts with more than 9+ years
-              of experience in leading MNC Companies. We are wellknown for our
-              practical approach towards training that enables students to gain
-              realtime exposure.
-              <br />
-              <br />
-              <br />
-              Hyderabad IT Trainings is a one-stop shop for IT courses, Web
-              Development services & Recruitment services. Hyderabad IT
-              Trainings concentrates on its vision of building up strong client
-              and business partnerships. To this end, Hyderabad IT Trainings
-              offers Real-time and placement focuses training services.
-            </p>
-          </aside>
+
+      {/* Image Carousel */}
+      <div id="carouselExample" className="carousel slide mt-4" data-bs-ride="carousel">
+        <div className="carousel-inner">
+          {[1, 2, 3].map((_, index) => (
+            <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
+              <img
+                src="https://hyderabadittrainings.com/images/slider/DESK1-min.jpg"
+                className="d-block w-100 rounded"
+                alt="Slide"
+              />
+            </div>
+          ))}
         </div>
-        <div style={{ width: "45%" }}>
-          <div className="container mt-2 ">
-            {" "}
-            <div className="card">
-              {" "}
-              <div className="card-header bg-primary text-white text-center">
-                {" "}
-                <h3>Register Now</h3>{" "}
-              </div>{" "}
-              <div className="card-body">
-                {" "}
-                <form onSubmit={addData}>
-                  {" "}
-                  <div className="mb-3">
-                    {" "}
-                    <label htmlFor="name" className="form-label">
-                      Name
-                    </label>{" "}
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                    />{" "}
-                  </div>{" "}
-                  <div className="mb-3">
-                    {" "}
-                    <label htmlFor="email" className="form-label">
-                      Email
-                    </label>{" "}
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                    />{" "}
-                  </div>{" "}
-                  <div className="mb-3">
-                    {" "}
-                    <label htmlFor="phone" className="form-label">
-                      Phone Number
-                    </label>{" "}
-                    <input
-                      type="tel"
-                      className="form-control"
-                      id="phone"
-                      value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
-                    />{" "}
-                  </div>{" "}
-                  <div className="mb-3">
-                    {" "}
-                    <label htmlFor="subject" className="form-label">
-                      Subject
-                    </label>{" "}
-                    <input
-                      type="text"
-                      className="form-control"
-                      id="subject"
-                      value={subject}
-                      onChange={(e) => setSubject(e.target.value)}
-                    />{" "}
-                  </div>{" "}
-                  <div className="mb-3">
-                    {" "}
-                    <label htmlFor="message" className="form-label">
-                      Message
-                    </label>{" "}
-                    <textarea
-                      className="form-control"
-                      id="message"
-                      rows="3"
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                    ></textarea>{" "}
-                  </div>{" "}
-                  <button
-                    type="submit"
-                    className="btn btn-primary "
-                    value="submit"
-                  >
-                    Submit
-                  </button>{" "}
-                </form>{" "}
-              </div>{" "}
-            </div>{" "}
-          </div>
+        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+          <span className="carousel-control-prev-icon"></span>
+        </button>
+        <button className="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+          <span className="carousel-control-next-icon"></span>
+        </button>
+      </div>
+
+      {/* Welcome Section - Centered */}
+      <section className="row mt-5 justify-content-center text-center">
+        <div className="col-md-8">
+          <h1 className="fw-bold">
+            Welcome to <span className="text-warning">Hyderabad IT Trainings</span>
+          </h1>
+          <p className="lead mt-3">
+            Hyderabad IT Trainings is a Hyderabad-based training institute offering classroom and online training 
+            across India, USA, UK, and Australia. Our IT professionals with over 9+ years of experience provide 
+            real-time, placement-focused learning to help you excel in your career.
+          </p>
+          <p>
+            We offer high-quality IT courses, web development services, and recruitment solutions. Our training is 
+            designed to be practical, ensuring real-world exposure for our students.
+          </p>
         </div>
+        <Courses />
+        <NewBatches />
       </section>
     </div>
   );
