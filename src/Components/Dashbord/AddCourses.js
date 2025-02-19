@@ -1,5 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify"; // Import Toastify
+import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
 
 const AddCourses = () => {
   const [image, setImage] = useState("");
@@ -22,7 +24,7 @@ const AddCourses = () => {
         setDescription("");
         setImage("");
         setTrainer("");
-        alert("Course Added Successfully!");
+        toast.success(`${courseName} course added successfully!`); // Show toast notification
       })
       .catch((err) => console.log(err));
   };
@@ -73,6 +75,7 @@ const AddCourses = () => {
           </div>
         </div>
       </div>
+      <ToastContainer /> {/* Add ToastContainer */}
     </div>
   );
 };
