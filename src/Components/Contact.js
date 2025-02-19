@@ -37,9 +37,15 @@ const Contact = () => {
 
   return (
     <div
-      className="d-flex justify-content-center align-items-center vh-100"
-      style={{ background: "#121212", padding: "20px" }}
-    >
+  className="d-flex justify-content-center align-items-center"
+  style={{
+    background: "#121212",
+    padding: "20px",
+    minHeight: "100vh", // Allows natural height expansion
+    paddingBottom: "80px", // Prevents footer collision in mobile view
+  }}
+>
+
       <ToastContainer />
       <div
         className="d-flex flex-wrap gap-4 p-4 shadow-lg rounded"

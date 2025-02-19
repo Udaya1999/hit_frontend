@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Courses from "./Courses";
-import NewBatches from "./NewBatches";
 import Contact from "./Contact";
 
 const Home = () => {
@@ -18,18 +17,48 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="container-fluid bg-dark text-white" style={{ paddingTop: "120px" }}>
+    <div
+      className="container-fluid text-white"
+      style={{
+        background: "#121212",
+        paddingTop: "120px",
+        minHeight: "100vh",
+      }}
+    >
       {/* News Scrolling Bar */}
-      <div className="bg-secondary py-2 text-center">
-        <marquee className="fw-bold text-light">
+      <div
+        style={{
+          background: "linear-gradient(to right, #1e1e1e, #292929)",
+          padding: "10px 0",
+          textAlign: "center",
+          fontWeight: "bold",
+          fontSize: "1.1rem",
+          color: "#FFD700", // Golden yellow for highlight
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden",
+        }}
+      >
+        <marquee behavior="scroll" direction="left">
           {news.map((item, index) => (
-            <span key={index} className="mx-3">{item.News}</span>
+            <span key={index} style={{ margin: "0 20px", display: "inline-block" }}>
+              <span style={{ color: "#00FF00", marginRight: "8px" }}>📢</span>
+              {item.News}
+            </span>
           ))}
         </marquee>
       </div>
 
       {/* Image Carousel */}
-      <div id="carouselExample" className="carousel slide mt-4" data-bs-ride="carousel">
+      <div
+        id="carouselExample"
+        className="carousel slide mt-4"
+        data-bs-ride="carousel"
+        style={{
+          boxShadow: "0px 0px 20px rgba(255, 255, 255, 0.1)", // Soft shadow
+          borderRadius: "12px",
+        }}
+      >
         <div className="carousel-inner">
           {[1, 2, 3].map((_, index) => (
             <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
@@ -37,36 +66,47 @@ const Home = () => {
                 src="https://hyderabadittrainings.com/images/slider/DESK1-min.jpg"
                 className="d-block w-100 rounded"
                 alt="Slide"
+                style={{ borderRadius: "12px" }}
               />
             </div>
           ))}
         </div>
-        <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+        <button
+          className="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="prev"
+        >
           <span className="carousel-control-prev-icon"></span>
         </button>
-        <button className="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+        <button
+          className="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExample"
+          data-bs-slide="next"
+        >
           <span className="carousel-control-next-icon"></span>
         </button>
       </div>
 
-      {/* Welcome Section - Centered */}
+      {/* Welcome Section */}
       <section className="row mt-5 justify-content-center text-center">
         <div className="col-md-8">
           <h1 className="fw-bold">
-            Welcome to <span className="text-warning">Hyderabad IT Trainings</span>
+            Welcome to <span style={{ color: "#FFD700" }}>Hyderabad IT Trainings</span>
           </h1>
-          <p className="lead mt-3">
-            Hyderabad IT Trainings is a Hyderabad-based training institute offering classroom and online training 
-            across India, USA, UK, and Australia. Our IT professionals with over 9+ years of experience provide 
+          <p className="lead mt-3 text-light">
+            Hyderabad IT Trainings is a Hyderabad-based training institute offering classroom and online training
+            across India, USA, UK, and Australia. Our IT professionals with over 9+ years of experience provide
             real-time, placement-focused learning to help you excel in your career.
           </p>
-          <p>
-            We offer high-quality IT courses, web development services, and recruitment solutions. Our training is 
+          <p className="text-secondary">
+            We offer high-quality IT courses, web development services, and recruitment solutions. Our training is
             designed to be practical, ensuring real-world exposure for our students.
           </p>
         </div>
         <Courses />
-        <NewBatches />
+        
         <Contact />
       </section>
     </div>
