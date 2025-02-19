@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
 import Courses from "./Courses";
 import NewBatches from "./NewBatches";
+import Contact from "./Contact";
 
 const Home = () => {
   const [news, setNews] = useState([]);
@@ -66,6 +67,7 @@ const Home = () => {
         </div>
         <Courses />
         <NewBatches />
+        <Contact />
       </section>
     </div>
   );

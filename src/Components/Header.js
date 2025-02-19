@@ -24,19 +24,24 @@ const Header = () => {
         </button>
 
         {/* Navbar Links */}
-        <div className="collapse navbar-collapse justify-content-center" id="navbarNav">
+        <div
+          className="collapse navbar-collapse justify-content-center"
+          id="navbarNav"
+        >
           <ul className="navbar-nav">
-            {["Home", "About", "Courses", "New Batches", "Contact"].map((item, index) => (
-              <li className="nav-item" key={index}>
-                <a
-                  className="nav-link text-light fw-semibold px-3"
-                  href={`/${item.replace(" ", "")}`}
-                  style={{ transition: "0.3s" }}
-                >
-                  {item}
-                </a>
-              </li>
-            ))}
+            {["Home", "About", "Courses", "NewBatches", "Contact"].map(
+              (item, index) => (
+                <li className="nav-item" key={index}>
+                  <a
+                    className="nav-link text-light fw-semibold px-3"
+                    href={`/${item.replace(" ", "")}`}
+                    style={{ transition: "0.3s" }}
+                  >
+                    {item}
+                  </a>
+                </li>
+              )
+            )}
           </ul>
         </div>
 
