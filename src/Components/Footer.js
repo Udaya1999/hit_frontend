@@ -1,8 +1,11 @@
 import React from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaGithub } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const Footer = () => {
+  const navigate = useNavigate(); // Initialize useNavigate
+
   return (
     <footer className="footer bg-dark text-white text-center py-4">
       <div className="container">
@@ -63,6 +66,16 @@ const Footer = () => {
             <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript" width="40" height="40" />
             <img src="https://upload.wikimedia.org/wikipedia/commons/d/d9/Node.js_logo.svg" alt="Node.js" width="40" height="40" />
           </div>
+        </div>
+
+        {/* Admin Button */}
+        <div className="mt-4">
+          <button
+            className="btn btn-warning fw-bold"
+            onClick={() => navigate("/hrlogin")}
+          >
+            Admin
+          </button>
         </div>
 
         {/* Bottom Footer */}

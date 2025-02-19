@@ -1,203 +1,183 @@
 import axios from "axios";
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default class CustomRead extends Component {
-  constructor(props) {
-    super(props);
+const CustomRead = () => {
+  const [batches, setBatches] = useState([]);
+  const [editedBatch, setEditedBatch] = useState({});
+  const batchesUrl = "https://hit-backend.onrender.com/batches";
 
-    this.state = {
-      id: "",
-      course: "",
-      date: "",
-      duration: "",
-      timing: "",
-      trainer: "",
-      batches: [],
-    };
-  }
-  componentDidMount() {
+  const fetchBatches = () => {
     axios
-      .get("https://hit-backend.onrender.com/batches")
-      .then((res) => {
-        console.log(res.data);
-        this.setState({
-          batches: res.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
+      .get(batchesUrl)
+      .then((res) => setBatches(res.data))
+      .catch((err) => console.log(err));
+  };
 
-  deleteBatch = (id) => {
-    // alert("deleted "+ id);
-    axios
-      .delete("https://hit-backend.onrender.com/batches/" + id)
-      .then(alert("Deleted Successfully"))
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  editBatch = (id) => {
-    axios
-      .get("https://hit-backend.onrender.com/batches/" + id)
-      .then((res) => {
-        this.setState({
-          id: res.data.id,
-          course: res.data.course,
-          date: res.data.date,
-          duration: res.data.duration,
-          timing: res.data.timing,
-          trainer: res.data.trainer,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  changeData = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-  updateBatch = (e) => {
+  useEffect(() => {
+    fetchBatches();
+  }, []);
+
+  const updateBatch = (e) => {
     e.preventDefault();
-    const { id, course, timing, trainer, date, duration } = this.state;
     axios
-      .put("https://hit-backend.onrender.com/batches/" + id, {
-        id,
-        course,
-        date,
-        timing,
-        trainer,
-        duration,
+      .put(`${batchesUrl}/${editedBatch.id}`, editedBatch)
+      .then(() => {
+        toast.success(`"${editedBatch.course}" updated successfully!`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
+
+        fetchBatches();
       })
-      .then(() => alert("Updated Successfully"))
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => console.log(err));
   };
 
-  render() {
-    return (
-      <div className="container mt-5 pt-5">
-        <h1 className="text-center mb-10">Upcomming Batches</h1>
-        <table
-          className="table table-striped"
-          style={{ height: "40px", textAlign: "center" }}
-        >
-          <thead
-            style={{
-              backgroundColor: "black",
-              color: "white",
-              height: "40px",
-              textAlign: "center",
-            }}
-          >
-            <th>Course Name</th>
-            <th>Duration</th>
-            <th>Timings</th>
-            <th>Date</th>
-            <th>Trainer</th>
-            <th>Action</th>
+  const deleteBatch = (id, courseName) => {
+    axios
+      .delete(`${batchesUrl}/${id}`)
+      .then(() => {
+        toast.error(`"${courseName}" deleted successfully!`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
+
+        // Reload the batch data after deletion
+        fetchBatches();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  return (
+    <div className="container mt-5 pt-5">
+      <h2
+        className="text-center text-white p-3 rounded"
+        style={{ background: "linear-gradient(90deg, #007bff, #6610f2)" }}
+      >
+        Upcoming Batches
+      </h2>
+      <div className="table-responsive">
+        <table className="table table-hover text-center shadow-sm">
+          <thead className="text-white" style={{ background: "#343a40" }}>
+            <tr>
+              <th>Course Name</th>
+              <th>Duration</th>
+              <th>Timings</th>
+              <th>Date</th>
+              <th>Trainer</th>
+              <th>Actions</th>
+            </tr>
           </thead>
           <tbody>
-            {this.state.batches?.map((bat) => {
-              return (
-                <tr key={bat.id}>
-                  <td>{bat.course}</td>
-                  <td>{bat.duration} Days</td>
-                  <td>{bat.timing}</td>
-                  <td>{bat.date}</td>
-                  <td>{bat.trainer}</td>
-                  <td>
-                    <button
-                      className="btn btn-info"
-                      data-bs-target="#1234"
-                      data-bs-toggle="modal"
-                      style={{ height: "30px" }}
-                      onClick={() => this.editBatch(bat.id)}
-                    >
-                      <p>Edit</p>
-                    </button>
-                    <span> </span>
-                    <button
-                      className="btn btn-danger"
-                      style={{ height: "30px" }}
-                      onClick={() => this.deleteBatch(bat.id)}
-                    >
-                      <p>delete</p>
-                    </button>
-                  </td>
-                </tr>
-              );
-            })}
+            {batches.map((bat, index) => (
+              <tr
+                key={bat.id}
+                style={{ background: index % 2 === 0 ? "#f8f9fa" : "#e9ecef" }}
+              >
+                <td className="fw-bold">{bat.course}</td>
+                <td>{bat.duration} Days</td>
+                <td>{bat.timing}</td>
+                <td>{bat.date}</td>
+                <td>{bat.trainer}</td>
+                <td>
+                  <button
+                    className="btn btn-outline-primary btn-sm me-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editBatchModal"
+                    onClick={() => setEditedBatch(bat)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-outline-danger btn-sm"
+                    onClick={() => deleteBatch(bat.id, bat.course)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
+      </div>
 
-        {/* Model for update*/}
-
-        <div className="modal fade" id="1234">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h4 className="modal-title"> Update Batch Data</h4>
-                <button className="btn-close" data-bs-dismiss="modal"></button>
-              </div>
-              <div className="modal-body">
-                <form onSubmit={this.updateBatch}>
-                  <input
-                    type="text"
-                    name="course"
-                    className="form-control mb-3"
-                    placeholder=" Enter Course Name "
-                    value={this.state.course}
-                    onChange={this.changeData}
-                  />
-                  <input
-                    type="date"
-                    name="date"
-                    className="form-control mb-3"
-                    placeholder="choose date"
-                    value={this.state.date}
-                    onChange={this.changeData}
-                  />
-                  <input
-                    type="text"
-                    name="duration"
-                    className="form-control mb-3"
-                    placeholder=" Course duration "
-                    value={this.state.duration}
-                    onChange={this.changeData}
-                  />
-                  <input
-                    type="text"
-                    name="timing"
-                    className="form-control mb-3"
-                    placeholder=" Timing "
-                    value={this.state.timing}
-                    onChange={this.changeData}
-                  />
-                  <input
-                    type="text"
-                    name="trainer"
-                    className="form-control mb-3"
-                    placeholder=" Enter trainer Name "
-                    value={this.state.trainer}
-                    onChange={this.changeData}
-                  />
-                  <input
-                    type="submit"
-                    value="Update Batch"
-                    data-bs-dismiss="modal"
-                    className="btn btn-danger"
-                  />
-                </form>
-              </div>
+      {/* Modal for Editing */}
+      <div className="modal fade" id="editBatchModal">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header bg-primary text-white">
+              <h4 className="modal-title">Update Batch Details</h4>
+              <button className="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={updateBatch}>
+                <input
+                  type="text"
+                  name="course"
+                  className="form-control mb-3"
+                  placeholder="Enter Course Name"
+                  value={editedBatch.course || ""}
+                  onChange={(e) =>
+                    setEditedBatch({ ...editedBatch, course: e.target.value })
+                  }
+                />
+                <input
+                  type="date"
+                  name="date"
+                  className="form-control mb-3"
+                  value={editedBatch.date || ""}
+                  onChange={(e) =>
+                    setEditedBatch({ ...editedBatch, date: e.target.value })
+                  }
+                />
+                <input
+                  type="text"
+                  name="duration"
+                  className="form-control mb-3"
+                  placeholder="Course Duration"
+                  value={editedBatch.duration || ""}
+                  onChange={(e) =>
+                    setEditedBatch({ ...editedBatch, duration: e.target.value })
+                  }
+                />
+                <input
+                  type="text"
+                  name="timing"
+                  className="form-control mb-3"
+                  placeholder="Timing"
+                  value={editedBatch.timing || ""}
+                  onChange={(e) =>
+                    setEditedBatch({ ...editedBatch, timing: e.target.value })
+                  }
+                />
+                <input
+                  type="text"
+                  name="trainer"
+                  className="form-control mb-3"
+                  placeholder="Enter Trainer Name"
+                  value={editedBatch.trainer || ""}
+                  onChange={(e) =>
+                    setEditedBatch({ ...editedBatch, trainer: e.target.value })
+                  }
+                />
+                <button
+                  type="submit"
+                  className="btn btn-success w-100"
+                  data-bs-dismiss="modal"
+                >
+                  Update Batch
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </div>
-    );
-  }
+
+      {/* Toast Notifications */}
+      <ToastContainer />
+    </div>
+  );
 };
+
+export default CustomRead;

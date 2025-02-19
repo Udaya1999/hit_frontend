@@ -1,13 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const AddCourses = () => {
   const [image, setImage] = useState("");
   const [courseName, setCourseName] = useState("");
   const [description, setDescription] = useState("");
   const [trainer, setTrainer] = useState("");
-  // const[details,setDetails]=useState([])
-  //http://localhost:4000/courses
 
   const uploadCourseData = (e) => {
     e.preventDefault();
@@ -19,86 +17,62 @@ const AddCourses = () => {
         trainer,
       })
       .then((res) => {
-        console.log(" Courses Data Added");
+        console.log("Courses Data Added");
         setCourseName("");
         setDescription("");
         setImage("");
         setTrainer("");
+        alert("Course Added Successfully!");
       })
       .catch((err) => console.log(err));
   };
 
   return (
     <div className="container mt-5 pt-5">
-      <form onSubmit={uploadCourseData}>
-        <h3 style={{ color: "orange" }}>Add Course Details</h3>
-        <input
-          style={{
-            width: "250px",
-            height: "50px",
-            border: "3px solid green",
-            borderRadius: "5px",
-          }}
-          type="text"
-          placeholder="Enter name of course"
-          value={courseName}
-          onChange={(q) => setCourseName(q.target.value)}
-        ></input>
-        <br></br>
-        <br />
-        <input
-          style={{
-            width: "250px",
-            height: "50px",
-            border: "3px solid green",
-            borderRadius: "5px",
-          }}
-          type="text"
-          placeholder="Enter Url here"
-          value={image}
-          onChange={(q) => setImage(q.target.value)}
-        ></input>
-        <br></br>
-        <br />
-        <input
-          style={{
-            width: "250px",
-            height: "50px",
-            border: "3px solid green",
-            borderRadius: "5px",
-          }}
-          type="text"
-          placeholder="describe"
-          value={description}
-          onChange={(q) => setDescription(q.target.value)}
-        ></input>
-        <br></br>
-        <br />
-        <input
-          style={{
-            width: "250px",
-            height: "50px",
-            border: "3px solid green",
-            borderRadius: "5px",
-          }}
-          type="text"
-          placeholder="name of trainer"
-          value={trainer}
-          onChange={(q) => setTrainer(q.target.value)}
-        ></input>
-        <br></br>
-        <br />
-        <input
-          style={{
-            width: "150px",
-            height: "50px",
-            border: "3px solid green",
-            borderRadius: "5px",
-          }}
-          type="submit"
-          placeholder="submit"
-        ></input>
-      </form>
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-8 col-lg-6">
+          <div className="card shadow-lg p-4">
+            <h2 className="text-center text-warning">Add Course Details</h2>
+            <form onSubmit={uploadCourseData}>
+              <input
+                type="text"
+                className="form-control mb-3"
+                placeholder="Enter Course Name"
+                value={courseName}
+                onChange={(q) => setCourseName(q.target.value)}
+                required
+              />
+              <input
+                type="text"
+                className="form-control mb-3"
+                placeholder="Enter Image URL"
+                value={image}
+                onChange={(q) => setImage(q.target.value)}
+                required
+              />
+              <input
+                type="text"
+                className="form-control mb-3"
+                placeholder="Course Description"
+                value={description}
+                onChange={(q) => setDescription(q.target.value)}
+                required
+              />
+              <input
+                type="text"
+                className="form-control mb-3"
+                placeholder="Trainer Name"
+                value={trainer}
+                onChange={(q) => setTrainer(q.target.value)}
+                required
+              />
+              <button type="submit" className="btn btn-success w-100">
+                Add Course
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import CustomRead from "./Dashbord/CustomRead";
 import AddBatches from "./Dashbord/AddBatches";
 import Welcome from "./Dashbord/Welcome";
@@ -8,148 +7,99 @@ import ViewNews from "./Dashbord/ViewNews";
 import ViewCourses from "./Dashbord/ViewCourses";
 import AddNews from "./Dashbord/AddNews";
 import AddCourses from "./Dashbord/AddCourses";
-// import styleSheet from "../App.css";
 
 const HrDashBoard = () => {
   const [view, setView] = useState("");
 
   const DashBoardView = () => {
-    let output = "";
-
-    if (view === "") {
-      output = <Welcome />;
-    } else if (view === "addBatches") {
-      output = <AddBatches />;
-    } else if (view === "viewBatches") {
-      output = <CustomRead />;
-    } else if (view === "viewEnquiries") {
-      output = <ViewEnquiries />;
-    } else if (view === "news") {
-      output = <ViewNews />;
-    } else if (view === "viewCourses") {
-      output = <ViewCourses />;
-    } else if (view === "AddNews") {
-      output = <AddNews />;
-    } else if (view === "addCources") {
-      output = <AddCourses />;
+    switch (view) {
+      case "addBatches":
+        return <AddBatches />;
+      case "viewBatches":
+        return <CustomRead />;
+      case "viewEnquiries":
+        return <ViewEnquiries />;
+      case "news":
+        return <ViewNews />;
+      case "viewCourses":
+        return <ViewCourses />;
+      case "AddNews":
+        return <AddNews />;
+      case "addCources":
+        return <AddCourses />;
+      default:
+        return <Welcome />;
     }
-
-    return output;
   };
 
   return (
-    <div className="container mt-5 pt-5">
-      <div className="row">
-        <aside
-          className="col-12 col-lg-3 text-center py-2"
-          style={{ paddingBottom: "30px", borderRight: "1px solid grey" }}
-        >
-          <h4 style={{ marginBottom: "30px" }}>Hr DashBoard</h4>
+    <div
+      style={{
+        display: "flex",
+        height: "100vh",
+        backgroundColor: "#f4f4f4",
+      }}
+    >
+      {/* Sidebar */}
+      <aside
+        style={{
+          width: "250px",
+          backgroundColor: "#0f5132",
+          color: "#fff",
+          padding: "20px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <h3 style={{ textAlign: "center", marginBottom: "20px" }}>HR Dashboard</h3>
+        {[
+          { name: "Add Courses", key: "addCources" },
+          { name: "View Courses", key: "viewCourses" },
+          { name: "Add Batches", key: "addBatches" },
+          { name: "View Batches", key: "viewBatches" },
+          { name: "News", key: "news" },
+          { name: "Add News", key: "AddNews" },
+          { name: "View Enquiries", key: "viewEnquiries" },
+        ].map((item) => (
           <button
+            key={item.key}
+            onClick={() => setView(item.key)}
             style={{
               width: "100%",
-              height: "50px",
+              padding: "12px",
+              margin: "5px 0",
+              backgroundColor: view === item.key ? "#198754" : "#28a745",
+              color: "white",
+              border: "none",
               borderRadius: "5px",
-              border: "1px solid green",
-              backgroundColor: "transparent",
-              marginBottom: "30px",
+              cursor: "pointer",
+              fontSize: "16px",
+              fontWeight: view === item.key ? "bold" : "normal",
+              transition: "background 0.3s ease",
             }}
-            onClick={() => setView("addCources")}
           >
-            Add Cources
+            {item.name}
           </button>
-          <button
-            style={{
-              width: "100%",
-              height: "50px",
-              borderRadius: "5px",
-              border: "1px solid green",
-              backgroundColor: "transparent",
-              marginBottom: "30px",
-            }}
-            onClick={() => setView("viewCourses")}
-          >
-            view Cources
-          </button>
-          <button
-            style={{
-              width: "100%",
-              height: "50px",
-              borderRadius: "5px",
-              border: "1px solid green",
-              backgroundColor: "transparent",
-              marginBottom: "30px",
-            }}
-            onClick={() => setView("addBatches")}
-          >
-            Add Batches
-          </button>
-          <button
-            style={{
-              width: "100%",
-              height: "50px",
-              borderRadius: "5px",
-              border: "1px solid green",
-              backgroundColor: "transparent",
-              marginBottom: "30px",
-            }}
-            onClick={() => setView("viewBatches")}
-          >
-            view Batches
-          </button>
-          <button
-            style={{
-              width: "100%",
-              height: "50px",
-              borderRadius: "5px",
-              border: "1px solid green",
-              backgroundColor: "transparent",
-              marginBottom: "30px",
-            }}
-            onClick={() => setView("news")}
-          >
-            News
-          </button>
-          <button
-            style={{
-              width: "100%",
-              height: "50px",
-              borderRadius: "5px",
-              border: "1px solid green",
-              backgroundColor: "transparent",
-              marginBottom: "30px",
-            }}
-            onClick={() => setView("AddNews")}
-          >
-            Add News
-          </button>
-          <button
-            style={{
-              width: "100%",
-              height: "50px",
-              borderRadius: "5px",
-              border: "1px solid green",
-              backgroundColor: "transparent",
-              marginBottom: "30px",
-            }}
-            onClick={() => setView("viewEnquiries")}
-          >
-            view Enquiries
-          </button>
-        </aside>
+        ))}
+      </aside>
 
-        <div
-          className="col-12 col-lg-9"
-          style={{
-            border: "10px solid orange",
-            borderRadius: "5px",
-            backgroundColor: "gray",
-          }}
-        >
-          {/* <CustomRead /> */}
-          {/* <AddBatches /> */}
-          {DashBoardView()}
-        </div>
+      {/* Main Content */}
+      <div
+        style={{
+          flex: 1,
+          backgroundColor: "#fff",
+          padding: "20px",
+          borderRadius: "10px",
+          boxShadow: "0px 0px 10px rgba(0,0,0,0.1)",
+          overflowY: "auto",
+          height: "90vh",
+          margin: "auto",
+          width: "85%",
+        }}
+      >
+        {DashBoardView()}
       </div>
     </div>
   );

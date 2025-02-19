@@ -21,33 +21,10 @@ const Home = () => {
       className="container-fluid text-white"
       style={{
         background: "#121212",
-        paddingTop: "120px",
+        paddingTop: "60px", // Reduced padding to decrease gap
         minHeight: "100vh",
       }}
     >
-      {/* News Scrolling Bar */}
-      <div
-        style={{
-          background: "linear-gradient(to right, #1e1e1e, #292929)",
-          padding: "10px 0",
-          textAlign: "center",
-          fontWeight: "bold",
-          fontSize: "1.1rem",
-          color: "#FFD700", // Golden yellow for highlight
-          display: "flex",
-          alignItems: "center",
-          overflow: "hidden",
-        }}
-      >
-        <marquee behavior="scroll" direction="left">
-          {news.map((item, index) => (
-            <span key={index} style={{ margin: "0 20px", display: "inline-block" }}>
-              <span style={{ color: "#00FF00", marginRight: "8px" }}>📢</span>
-              {item.News}
-            </span>
-          ))}
-        </marquee>
-      </div>
 
       {/* Image Carousel */}
       <div
@@ -88,6 +65,33 @@ const Home = () => {
           <span className="carousel-control-next-icon"></span>
         </button>
       </div>
+      
+      {/* News Scrolling Bar */}
+      <div
+        style={{
+          background: "linear-gradient(to right, #1e1e1e, #292929)",
+          padding: "5px 0",
+          textAlign: "center",
+          fontWeight: "bold",
+          fontSize: "1.1rem",
+          color: "white",
+          display: "flex",
+          alignItems: "center",
+          overflow: "hidden",
+          height: "50px", // Adjust the height as needed
+        }}
+      >
+        <div style={{ width: "100%", overflowX: "auto" }}>
+          <marquee behavior="scroll" direction="left">
+            {news.map((item, index) => (
+              <span key={index} style={{ margin: "0 20px", display: "inline-block" }}>
+                <span style={{ color: "#00FF00", marginRight: "8px" }}>📢</span>
+                {item.News}
+              </span>
+            ))}
+          </marquee>
+        </div>
+      </div>
 
       {/* Welcome Section */}
       <section className="row mt-5 justify-content-center text-center">
@@ -106,7 +110,6 @@ const Home = () => {
           </p>
         </div>
         <Courses />
-        
         <Contact />
       </section>
     </div>

@@ -1,182 +1,153 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ViewCourses = () => {
-  const [courses, setCources] = useState([]);
-  const [courseName, setCourseName] = useState("");
-  const [image, setimage] = useState("");
-  const [description, setDescription] = useState("");
-  const [trainer, setTrainer] = useState("");
+  const [courses, setCourses] = useState([]);
   const [editedCourse, setEditedCourse] = useState({});
-    const coursesUrl = "https://hit-backend.onrender.com/courses"
+  const coursesUrl = "https://hit-backend.onrender.com/courses";
 
-  const UpdateCourseDetails = (e) => {
-    e.preventDefault();
-    const { courseName, image, description, trainer, id } = editedCourse;
-
+  const fetchCourses = () => {
     axios
-      .put(`coursesUrl/${id}`, editedCourse)
-      .then((res) => {
-        console.log(res.data);
-        alert("Updated");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const deletCourseDetails = (id) => {
-    axios
-      .delete(`coursesUrl/${id}`)
-      .then(() => console.log("Deleted Course details"))
+      .get(coursesUrl)
+      .then((res) => setCourses(res.data))
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    axios
-      .get(coursesUrl)
-      .then((res) => {
-        setCources(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    fetchCourses();
   }, []);
 
-  const editCourse = (a) => {
-    setEditedCourse(a);
-    // axios
-    //   .get(`http://localhost:4000/courses/${id}`)
-    //   .then((res) => {
-    //     setCourseName(res.courseName);
-    //     setimage(res.image);
-    //     setDescription(res.description);
-    //     setTrainer(res.trainer);
-    //     console.log(res.data);
-    //   })
-    //   .catch((err) => console.log(err));
+  const updateCourseDetails = (e) => {
+    e.preventDefault();
+    axios
+      .put(`${coursesUrl}/${editedCourse.id}`, editedCourse)
+      .then(() => {
+        toast.success(`"${editedCourse.courseName}" edited successfully!`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
+
+        fetchCourses();
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const deleteCourseDetails = (id, courseName) => {
+    axios
+      .delete(`${coursesUrl}/${id}`)
+      .then(() => {
+        toast.error(`"${courseName}" deleted successfully!`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
+
+        fetchCourses();
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
     <div className="container mt-5 pt-5">
-      <table
-        class="table table-striped text-center"
-        style={{ padding: "150px", borderRadius: "5px" }}
-      >
-        <thead>
-          <tr>
-            <th scope="col">Courses</th>
-            <th scope="col">Trainer</th>
-            <th scope="col">Image</th>
-            <th scope="col">Description</th>
-            <th scope="col">Delete</th>
-            <th scope="col"> Edit</th>
-          </tr>
-        </thead>
-        <tbody>
-          {console.log("hiiii", courses)}
-          {courses.map((a) => {
-            return (
-              <tr key={a.id} scope="row">
-                <td>{a.courseName}</td>
+      <h2 className="text-center text-white p-3 rounded" style={{ background: "linear-gradient(90deg, #007bff, #6610f2)" }}>
+        Course List
+      </h2>
+      <div className="table-responsive">
+        <table className="table table-hover text-center shadow-sm">
+          <thead className="text-white" style={{ background: "#343a40" }}>
+            <tr>
+              <th>Course Name</th>
+              <th>Trainer</th>
+              <th>Image</th>
+              <th>Description</th>
+              <th>Delete</th>
+              <th>Edit</th>
+            </tr>
+          </thead>
+          <tbody>
+            {courses.map((a, index) => (
+              <tr key={a.id} style={{ background: index % 2 === 0 ? "#f8f9fa" : "#e9ecef" }}>
+                <td className="fw-bold">{a.courseName}</td>
                 <td>{a.trainer}</td>
-                <td>{a.image}</td>
+                <td>
+                  <img src={a.image} alt="Course" width="80" className="rounded shadow-sm" />
+                </td>
                 <td>{a.description}</td>
                 <td>
-                  <button
-                    type="button"
-                    class="btn btn-danger"
-                    onClick={() => deletCourseDetails(a.id)}
-                  >
+                  <button className="btn btn-outline-danger btn-sm" onClick={() => deleteCourseDetails(a.id, a.courseName)}>
                     Delete
                   </button>
                 </td>
                 <td>
                   <button
-                    type="button"
-                    class="btn btn-info"
-                    data-bs-target="#124"
+                    className="btn btn-outline-primary btn-sm"
                     data-bs-toggle="modal"
-                    onClick={() => editCourse(a)}
+                    data-bs-target="#editModal"
+                    onClick={() => setEditedCourse(a)}
                   >
                     Edit
                   </button>
                 </td>
               </tr>
-            );
-          })}
-        </tbody>
-      </table>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
-      <div className="modal fade" id="124">
+      {/* Modal for Editing */}
+      <div className="modal fade" id="editModal">
         <div className="modal-dialog">
           <div className="modal-content">
-            <div className="modal-header">
-              <h4 className="modal-title"> Update Course Details</h4>
+            <div className="modal-header bg-primary text-white">
+              <h4 className="modal-title">Update Course Details</h4>
               <button className="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div className="modal-body">
-              <form onSubmit={UpdateCourseDetails}>
+              <form onSubmit={updateCourseDetails}>
                 <input
                   type="text"
                   name="courseName"
                   className="form-control mb-3"
-                  placeholder=" Enter Course Name "
-                  value={editedCourse.courseName}
-                  onChange={(q) =>
-                    setEditedCourse({
-                      ...editedCourse,
-                      courseName: q.target.value,
-                    })
-                  }
+                  placeholder="Enter Course Name"
+                  value={editedCourse.courseName || ""}
+                  onChange={(e) => setEditedCourse({ ...editedCourse, courseName: e.target.value })}
                 />
                 <input
                   type="text"
                   name="image"
                   className="form-control mb-3"
-                  placeholder="Place image Here"
-                  value={editedCourse?.image}
-                  onChange={(q) =>
-                    setEditedCourse({ ...editedCourse, image: q.target.value })
-                  }
+                  placeholder="Image URL"
+                  value={editedCourse.image || ""}
+                  onChange={(e) => setEditedCourse({ ...editedCourse, image: e.target.value })}
                 />
                 <input
                   type="text"
                   name="description"
                   className="form-control mb-3"
-                  placeholder=" Description "
-                  value={editedCourse?.description}
-                  onChange={(q) =>
-                    setEditedCourse({
-                      ...editedCourse,
-                      description: q.target.value,
-                    })
-                  }
+                  placeholder="Description"
+                  value={editedCourse.description || ""}
+                  onChange={(e) => setEditedCourse({ ...editedCourse, description: e.target.value })}
                 />
                 <input
                   type="text"
                   name="trainer"
                   className="form-control mb-3"
-                  placeholder=" Trainer "
-                  value={editedCourse.trainer}
-                  onChange={(q) =>
-                    setEditedCourse({
-                      ...editedCourse,
-                      trainer: q.target.value,
-                    })
-                  }
+                  placeholder="Trainer"
+                  value={editedCourse.trainer || ""}
+                  onChange={(e) => setEditedCourse({ ...editedCourse, trainer: e.target.value })}
                 />
-                <input
-                  type="submit"
-                  value="Update Batch"
-                  data-bs-dismiss="modal"
-                  className="btn btn-danger"
-                />
+                <button type="submit" className="btn btn-success w-100" data-bs-dismiss="modal">
+                  Update Course
+                </button>
               </form>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Toast Notifications */}
+      <ToastContainer />
     </div>
   );
 };
