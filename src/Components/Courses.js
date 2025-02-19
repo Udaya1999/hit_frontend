@@ -14,7 +14,7 @@ const Courses = () => {
         setData(res.data);
       })
       .catch((err) => console.log(err));
-  }, [data]);
+  }, [ ]);
 
   return (
     <>
