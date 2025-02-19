@@ -17,7 +17,7 @@ const Routing = () => {
         <Route path="/Home" element={<Home />} />
         <Route path="/About" element={<About />} />
         <Route path="/Courses" element={<Courses />} />
-        <Route path="/NewBatches" element={<NewBatches />} />
+        <Route path="/Batches" element={<NewBatches />} />
         <Route path="/Contact" element={<Contact />} />
         <Route path="/hrlogin" element={<HrLogin />} />
         <Route path="/hrdashboardviewdjefnjdbi" element={<HrDashBoard />} />

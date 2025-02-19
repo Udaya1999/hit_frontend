@@ -28,21 +28,34 @@ const Header = () => {
           className="collapse navbar-collapse justify-content-center"
           id="navbarNav"
         >
-          <ul className="navbar-nav">
-            {["Home", "About", "Courses", "NewBatches", "Contact"].map(
-              (item, index) => (
-                <li className="nav-item" key={index}>
-                  <a
-                    className="nav-link text-light fw-semibold px-3"
-                    href={`/${item.replace(" ", "")}`}
-                    style={{ transition: "0.3s" }}
-                  >
-                    {item}
-                  </a>
-                </li>
-              )
-            )}
-          </ul>
+         <ul className="navbar-nav">
+  <li className="nav-item">
+    <a className="nav-link text-light fw-semibold px-3" href="/Home" style={{ transition: "0.3s" }}>
+      Home
+    </a>
+  </li>
+  <li className="nav-item">
+    <a className="nav-link text-light fw-semibold px-3" href="/About" style={{ transition: "0.3s" }}>
+      About
+    </a>
+  </li>
+  <li className="nav-item">
+    <a className="nav-link text-light fw-semibold px-3" href="/Courses" style={{ transition: "0.3s" }}>
+      Courses
+    </a>
+  </li>
+  <li className="nav-item">
+    <a className="nav-link text-light fw-semibold px-3" href="/Batches" style={{ transition: "0.3s" }}>
+      Batches
+    </a>
+  </li>
+  <li className="nav-item">
+    <a className="nav-link text-light fw-semibold px-3" href="/Contact" style={{ transition: "0.3s" }}>
+      Contact
+    </a>
+  </li>
+</ul>
+
         </div>
 
         {/* Welcome Message */}
