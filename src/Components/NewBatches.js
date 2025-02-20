@@ -20,10 +20,12 @@ const NewBatches = () => {
 
   return (
     <div
-      className="d-flex justify-content-center align-items-center vh-100"
+      className="d-flex justify-content-center align-items-center"
       style={{
         background: "#121212",
-        padding: "20px",
+        padding: "50px 20px",
+        minHeight: "80vh", // Adjusts height dynamically
+        paddingBottom: "80px", // Prevents overlap with footer
       }}
     >
       <div
@@ -60,10 +62,10 @@ const NewBatches = () => {
               background: "#121212",
             }}
           >
-            {/* 🟠 Apply One Color to All Headers */}
+            {/* Header */}
             <thead
               style={{
-                backgroundColor: "#F4A261", // Orange Shade for Headings
+                backgroundColor: "#F4A261",
                 color: "white",
                 fontSize: "18px",
                 textShadow: "0px 0px 5px rgba(255,255,255,0.3)",

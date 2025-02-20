@@ -60,7 +60,7 @@ const Header = () => {
 
         {/* Welcome Message */}
         <span className="navbar-text d-none d-lg-block text-light fw-bold">
-          Welcome to Our Learning Platform 😊
+        Designed & Developed by Uday 
         </span>
       </div>
     </nav>
